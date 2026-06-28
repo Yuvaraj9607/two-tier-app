@@ -1,0 +1,1 @@
+async function loadMenu(){const r=await fetch('/menu');document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);}

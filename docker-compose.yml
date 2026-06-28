@@ -1,0 +1,39 @@
+version: "3.6"
+
+services:
+  restaraunt-app:
+    build: .
+    container_name: restaraunt-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: Yuvaraj
+      DB_NAME: restaraunt
+    networks:
+      - restaraunt-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: Yuvaraj
+      MYSQL_DATABASE: restaraunt
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - restaraunt-network
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  restaraunt-network:
+    driver: bridge
